@@ -238,7 +238,7 @@ struct ContentView: View {
             
             
             // шифруем
-            let newPos = Int(textPos + keyPos+2) % russianAlphabet.count - 1
+            let newPos = Int(textPos + keyPos+1) % russianAlphabet.count
             
             // получаем зашифрованный символ
             let newChar = russianAlphabet[russianAlphabet.index(russianAlphabet.startIndex, offsetBy: newPos)]
@@ -273,7 +273,7 @@ struct ContentView: View {
                   let keyPos = positionInAlphabet(key_char, alphabet: russianAlphabet) else {
                         continue
                     }
-            var newpos =  (Int(encryptedPos+1) - Int(keyPos+1)) % russianAlphabet.count - 1
+            var newpos =  (Int(encryptedPos) - Int(keyPos)) % russianAlphabet.count - 1
             
             // обработка если ушли в минус
             if newpos<0 {
