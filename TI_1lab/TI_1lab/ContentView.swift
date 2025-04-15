@@ -273,7 +273,7 @@ struct ContentView: View {
                   let keyPos = positionInAlphabet(key_char, alphabet: russianAlphabet) else {
                         continue
                     }
-            var newpos =  (Int(encryptedPos) - Int(keyPos)) % russianAlphabet.count - 1
+            var newpos =  (Int(encryptedPos) - Int(keyPos)-1) % russianAlphabet.count 
             
             // обработка если ушли в минус
             if newpos<0 {
