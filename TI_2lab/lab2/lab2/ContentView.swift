@@ -92,16 +92,68 @@ struct ContentView: View {
         return false
     }
     
+    // класс для более грамотной работы
+    class LFSR{
+        private var state:UInt32
+        private let taps:[Int]
+        private let length: Int = 32
+        
+        init?(seed: UInt32, taps: [Int]) {
+            guard seed != 0 else { return nil }
+            self.state = seed
+            self.taps = taps
+        }
+        
+        
+        func next_bit()->UInt32{
+            guard state != 0 else { return 0 }
+            var feedback: UInt32 = 0
+            for tap in taps{
+                feedback ^= (state >> tap) & 1 //xorим младший бит с отводами
+            }
+            state  = (state>>1) //сдвигаем на одну
+            | (feedback<<(length-1)) // объединяем с фидбеком в старшей позиции
+            return state & 1 // достаем только младший бит
+        }
+        
+        
+        func next_byte() -> UInt8 {
+                var byte: UInt8 = 0
+                for i in 0..<8 {
+                    byte |= UInt8(next_bit()) << i // устанавливаю бит в соответствующую позицию
+                }
+                return byte
+            }
+        
+        func generateKeyStream(length: Int) -> [UInt8] {
+            return (0..<length).map { _ in next_byte() }
+            }
+            
+    }
+    
+    // оставляем ток 0 и 1
+    
     func filter_input(input:String)->String{
         let filtered = input.filter{$0 == "0" || $0 == "1"}
         return filtered
     }
     
+    // здесь проверяем сид на правильность
+    
     func check_seed(input:String)->Bool{
-        if input.count == 32 && input != String(repeating:"0", count:32){
+        let filtered = filter_input(input:input)
+        if filtered.count == 32 && input != String(repeating:"0", count:32){
             return true
-        } else {return false}
+        } else {
+            showAlert = true
+            error_warning = "Error"
+            AlertMessage = "Seed must be 32-bit binary number (without leading zeros)"
+            return false
+            
+        }
+        
     }
+    
     
     
     // Диапазоны ASCII кодов для русских букв (верхний и нижний регистр)
