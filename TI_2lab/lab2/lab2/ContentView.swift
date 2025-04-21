@@ -1,15 +1,10 @@
 //
 //  ContentView.swift
-//  TI_1lab
+//  TI_2lab
 //
 /*
- Вариант 9.
- Написать программу, которая выполняет шифрование и дешифрование текстового файла любого размера, содержащего текст на заданном языке, используя следующие алгоритмы шифрования:
- - Шифр Плейфейра, текст на английском языке;
- - алгоритм Виженера, прогрессивный ключ, текст на русском языке.
- Для всех алгоритмов ключ задается с клавиатуры пользователем.
- Программа должна игнорировать все символы, не являющиеся буквами заданного алфавита,  и шифровать только текст на заданном языке. Все алгоритмы должны быть реализованы в одной программе. Программа не должна быть написана в консольном режиме. Результат работы программы – зашифрованный/расшифрованный файл/ы.
- 
+ Вариант 10
+ Реализовать систему потокового шифрования и дешифрования для файла с любым содержимым с помощью генератора ключевой последовательности на основе линейного сдвигового регистра с обратной связью LFSR1 (размерность регистра приведена в таблице №1). Начальное состояние регистра ввести с клавиатуры. Поле для ввода состояния регистра должно игнорировать любые символы кроме 0 и 1. Вывести на экран сгенерированный ключ (последовательность из 0 и 1), исходный файл и зашифрованный файл в двоичном виде. Программа не должна быть написана в консольном режиме. Результат работы программы – зашифрованный/расшифрованный файл
  */
 import SwiftUI
 import UniformTypeIdentifiers
@@ -79,7 +74,7 @@ struct ContentView: View {
         error_warning = "Error"
         return false
     }
-    
+  // убрать
     //проверка для виженера
     func check_valid_vig(input:String)->Bool{
         for char in input {
@@ -95,6 +90,17 @@ struct ContentView: View {
             showAlert = true
         error_warning = "Error"
         return false
+    }
+    
+    func filter_input(input:String)->String{
+        let filtered = input.filter{$0 == "0" || $0 == "1"}
+        return filtered
+    }
+    
+    func check_seed(input:String)->Bool{
+        if input.count == 32 && input != String(repeating:"0", count:32){
+            return true
+        } else {return false}
     }
     
     
@@ -616,28 +622,12 @@ struct ContentView: View {
     }
     
     func encrypt(){
-        switch algos{
-        case "Vigenere":
-            encrypt_Vig(input:plaintext, input_key:key)
-        case "Playfair":
-            encrypt_Plf(input:plaintext, input_key: key)
-        default:
-            print("Error, unknown method")
-            
-        }
+        
     
     }
     
     func decrypt(){
-        switch algos{
-        case "Vigenere":
-            decrypt_Vig(input:plaintext, input_key:key)
-        case "Playfair":
-            decrypt_Plf(input:plaintext, input_key: key)
-        default:
-            print("Error, unknown method")
-            
-        }
+        
     }
     
     
@@ -702,11 +692,7 @@ struct ContentView: View {
                     .padding()
                     .textFieldStyle(.roundedBorder)
                 
-                Picker("",selection: $algos ){
-                    ForEach(encryption_methods, id: \.self){
-                        method in Text(method).tag(method)
-                    }
-                }
+                
                 .frame(width:180)
                 Rectangle() // Невидимый разделитель
                      .fill(Color.clear)
