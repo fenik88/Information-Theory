@@ -10,14 +10,134 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct BinaryDocument: FileDocument {
-    // Поддерживаем все типы файлов
     static var readableContentTypes: [UTType] {
-           [.data, .item, .image, .jpeg, .png, .tiff, .pdf, .text]
-       }
-       
-       static var writableContentTypes: [UTType] {
-           [.data, .item, .image, .jpeg, .png, .tiff, .pdf, .text]
-       }
+        [
+            // Общие типы
+            .data,
+            .item,
+            .content,
+            .archive,
+            
+            // Изображения
+            .image,
+            .jpeg,
+            .png,
+            .tiff,
+            .gif,
+            .bmp,
+            .ico,
+            .icns,
+            .rawImage,
+            .svg,
+            .heic,
+            .heif,
+            .webP,
+            
+            // Видео
+            .movie,
+            .video,
+            .mpeg,
+            .mpeg2Video,
+            .mpeg4Movie,
+            .appleProtectedMPEG4Video,
+            .avi,
+            .quickTimeMovie,
+            .mp3,
+            .wav,
+            .aiff,
+            .midi,
+
+            
+            // Аудио
+            .audio,
+            .mp3,
+            .mpeg4Audio,
+            .appleProtectedMPEG4Audio,
+            .wav,
+            .aiff,
+            .midi,
+            
+            // Документы
+            .text,
+            .plainText,
+            .rtf,
+            .pdf,
+            .presentation,
+            .spreadsheet,
+            .database,
+            .json,
+            .xml,
+            .sourceCode,
+            .assemblyLanguageSource,
+            .cSource,
+            .objectiveCSource,
+            .swiftSource,
+            .cPlusPlusSource,
+            .objectiveCPlusPlusSource,
+            .cHeader,
+            .cPlusPlusHeader,
+            .script,
+            .shellScript,
+            .pythonScript,
+            .rubyScript,
+            .perlScript,
+            .phpScript,
+            .javaScript,
+            .html,
+            .css,
+            
+            // Архивы
+            .zip,
+            .gzip,
+            .bz2,
+            
+            // Исполняемые файлы
+            .executable,
+            .systemPreferencesPane,
+            .application,
+            .bundle
+        ]
+    }
+
+    static var writableContentTypes: [UTType] {
+        [
+            // Основные типы для записи
+            .data,
+            .item,
+            .content,
+            
+            // Изображения (записываемые форматы)
+            .image,
+            .jpeg,
+            .png,
+            .tiff,
+            .gif,
+            .bmp,
+            .heic,
+            .heif,
+            .webP,
+            
+            // Видео/аудио (записываемые форматы)
+            .movie,
+            .video,
+            .mpeg4Movie,
+            .quickTimeMovie,
+            .audio,
+            .mp3,
+            .mpeg4Audio,
+            .wav,
+            
+            // Документы
+            .text,
+            .plainText,
+            .rtf,
+            .pdf,
+            
+            // Архивы
+            .zip,
+            .gzip
+        ]
+    }
     
     var data: Data
     var fileType: UTType
