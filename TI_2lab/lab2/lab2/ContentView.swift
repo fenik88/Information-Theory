@@ -374,11 +374,11 @@ struct ContentView: View {
         // Обновляем интерфейс
         fileData = encryptedData
         encryptedBinary = encryptedData.map { String(format: "%08b", $0) }.joined()
-        binaryKeyStream = keyStream.map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
+        binaryKeyStream = keyStream.prefix(20).map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
         
         // Для отображения в текстовом поле (первые 100 байт)
         encrypted = "Encrypted data (\(encryptedData.count) bytes)\n" +
-        encryptedData.map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
+        encryptedData.prefix(20).map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
     }
     
     func encryptFile() {
@@ -411,7 +411,7 @@ struct ContentView: View {
         
         // Обновление интерфейса
         encrypted = encryptedData.map { String(format: "%08b", $0) }.joined()
-        binaryKeyStream = keyStream.map{ String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
+        binaryKeyStream = keyStream.prefix(20).map{ String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
     }
 
   // дешифруем
@@ -444,16 +444,16 @@ struct ContentView: View {
         
         // Пытаемся отобразить как текст, если это возможно
       
-            plaintext = "Binary data (hex): " + decryptedData.map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
+        plaintext = "Binary data (hex): " + decryptedData.prefix(20).map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
         
         
         // Обновляем бинарное представление
         originalBinary = decryptedData.map { String(format: "%08b", $0) }.joined()
-        binaryKeyStream = keyStream.map{ String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
+        binaryKeyStream = keyStream.prefix(20).map{ String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
         
         // Для отображения в текстовом поле (первые 100 байт)
         encrypted = "Decrypted data (\(decryptedData.count) bytes)\n" +
-        decryptedData.map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
+        decryptedData.prefix(20).map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
     }
     
     
@@ -485,7 +485,7 @@ struct ContentView: View {
 
             
             
-                plaintext = "Binary data (hex): " + data.map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
+            plaintext = "Binary data (hex): " + data.prefix(20).map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
             
            
        
@@ -573,7 +573,7 @@ struct ContentView: View {
                     Button(action:{
                         print("Decrypting...")
                         encrypted = "\n"
-                        decrypt()
+                        encrypt()
                     }){
                         Text("Decrypt")
                             .fontWeight(.medium)
