@@ -10,7 +10,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct BinaryDocument: FileDocument {
-    static var readableContentTypes: [UTType] {
+    static var readableContentTypes: [UTType] { // какие типы файлов можно открывать
         [
             // Общие типы
             .data,
@@ -99,7 +99,7 @@ struct BinaryDocument: FileDocument {
         ]
     }
 
-    static var writableContentTypes: [UTType] {
+    static var writableContentTypes: [UTType] { // какие типы файлов можно сохранять
         [
             // Основные типы для записи
             .data,
@@ -141,7 +141,7 @@ struct BinaryDocument: FileDocument {
     
     var data: Data
     var fileType: UTType
-    
+    // корректируй тип файла
     init(data: Data = Data(), fileType: UTType = .data) {
         self.data = data
         self.fileType = fileType
@@ -159,28 +159,7 @@ struct BinaryDocument: FileDocument {
         return FileWrapper(regularFileWithContents: data)
     }
 }
-// 1. Создаем документ для экспорта
-struct TextDocument: FileDocument {
-    var text: String
-    
-    static var readableContentTypes: [UTType] { [.plainText] }
-    
-    init(text: String = "") {
-        self.text = text
-    }
-    
-    init(configuration: ReadConfiguration) throws {
-        guard let data = configuration.file.regularFileContents,
-              let string = String(data: data, encoding: .utf8) else {
-            throw CocoaError(.fileReadCorruptFile)
-        }
-        text = string
-    }
-    
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        FileWrapper(regularFileWithContents: text.data(using: .utf8)!)
-    }
-}
+
 
 struct ContentView: View {
     // left menu
@@ -193,7 +172,7 @@ struct ContentView: View {
        @State private var encryptedBinary: String = ""
        @State private var fileData: Data?
        @State private var doc = BinaryDocument()
-    
+    // расширение из файла
     @State private var FileExtensionDefault:UTType = .data
     
     @State private var showExporter = false
@@ -201,8 +180,6 @@ struct ContentView: View {
     // rigt menu
     @State private var encrypted:String = ""
     // export file
-    @State private var document = TextDocument()
-    
     @State private var ShowExporter:Bool = false
     //меню выбора
     @State private var showFilePicker = false
@@ -213,8 +190,8 @@ struct ContentView: View {
     @State private var AlertMessage = ""
     @State private var error_warning = ""
     
-    // Константы
-        private let taps = [31, 21, 1, 0] // Отводы для 32-битногоLFSR
+
+        private let taps = [31, 6, 4, 2, 1, 0] // Отводы
         private let keyLength = 32
     
     // класс для более грамотной работы
@@ -229,7 +206,7 @@ struct ContentView: View {
             self.taps = taps
         }
         
-        
+        // рассчитываем след бит
         func next_bit()->UInt32{
             guard state != 0 else { return 0 }
             var feedback: UInt32 = 0
@@ -241,7 +218,7 @@ struct ContentView: View {
             return state & 1 // достаем только младший бит
         }
         
-        
+        // рассчитываем сразу байт ибо регистр 32 битный
         func next_byte() -> UInt8 {
                 var byte: UInt8 = 0
                 for i in 0..<8 {
@@ -283,7 +260,7 @@ struct ContentView: View {
         
     }
     
-    
+    // выбор файла
     private func handleFileSelection(_ result: Result<[URL], Error>) {
         do {
             let urls = try result.get()
@@ -303,13 +280,14 @@ struct ContentView: View {
             showAlert = true
         }
     }
-      
+    
+    // сохранение файла
       private func saveEncryptedFile() {
           guard let data = fileData else { return }
           doc = BinaryDocument(data: data)
           showExporter = true
       }
-      
+      // экспорт
       private func handleExportResult(_ result: Result<URL, Error>) {
           switch result {
           case .success(let url):
@@ -319,7 +297,7 @@ struct ContentView: View {
           }
       }
     
-    
+    // сохранение бинарных данных
     func saveBinaryData(_ data: Data) {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.data]
@@ -335,7 +313,7 @@ struct ContentView: View {
   
 
     
- 
+
     private func dataFromHexString(_ hex: String) -> Data? {
         var data = Data()
         var hexString = hex
@@ -363,7 +341,7 @@ struct ContentView: View {
     }
     
     
-    
+   // шифруем
     func encrypt(){
         guard check_seed(input: key) else { return }
         
@@ -379,8 +357,7 @@ struct ContentView: View {
         let dataToEncrypt: Data
         if let fileData = fileData {
             dataToEncrypt = fileData
-        } else if let textData = plaintext.data(using: .utf8) {
-            dataToEncrypt = textData
+        
         } else {
             AlertMessage = "No data to encrypt"
             showAlert = true
@@ -397,11 +374,11 @@ struct ContentView: View {
         // Обновляем интерфейс
         fileData = encryptedData
         encryptedBinary = encryptedData.map { String(format: "%08b", $0) }.joined()
-        binaryKeyStream = keyStream.map { String(format: "%08b", $0) }.joined()
+        binaryKeyStream = keyStream.map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
         
         // Для отображения в текстовом поле (первые 100 байт)
         encrypted = "Encrypted data (\(encryptedData.count) bytes)\n" +
-        encryptedData.prefix(100).map { String(format: "%02X", $0) }.joined(separator: " ")
+        encryptedData.map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
     }
     
     func encryptFile() {
@@ -434,10 +411,10 @@ struct ContentView: View {
         
         // Обновление интерфейса
         encrypted = encryptedData.map { String(format: "%08b", $0) }.joined()
-        binaryKeyStream = keyStream.map { String(format: "%08b", $0) }.joined()
+        binaryKeyStream = keyStream.map{ String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
     }
 
-  
+  // дешифруем
     func decrypt() {
         guard check_seed(input: key) else { return }
         
@@ -466,23 +443,21 @@ struct ContentView: View {
         fileData = decryptedData
         
         // Пытаемся отобразить как текст, если это возможно
-        if let text = String(data: decryptedData, encoding: .utf8) {
-            plaintext = text
-        } else {
-            plaintext = "Binary data (hex): " + decryptedData.map { String(format: "%02X", $0) }.joined()
-        }
+      
+            plaintext = "Binary data (hex): " + decryptedData.map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
+        
         
         // Обновляем бинарное представление
         originalBinary = decryptedData.map { String(format: "%08b", $0) }.joined()
-        binaryKeyStream = keyStream.map { String(format: "%08b", $0) }.joined()
+        binaryKeyStream = keyStream.map{ String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
         
         // Для отображения в текстовом поле (первые 100 байт)
         encrypted = "Decrypted data (\(decryptedData.count) bytes)\n" +
-        decryptedData.prefix(100).map { String(format: "%02X", $0) }.joined(separator: " ")
+        decryptedData.map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
     }
     
     
-    
+    // загружаем файл для де/-шифрования
     func loadFile(url: URL) {
         // Безопасный доступ к защищённому ресурсу
         guard url.startAccessingSecurityScopedResource() else {
@@ -509,15 +484,11 @@ struct ContentView: View {
             originalBinary = data.map { String(format: "%08b", $0) }.joined()
 
             
-            if let text = String(data: data, encoding: .utf8) {
-                plaintext = text
-            } else{
-                plaintext = "Binary data (hex): " + data.map { String(format: "%02X", $0) }.joined()
-            }
+            
+                plaintext = "Binary data (hex): " + data.map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }.joined()
+            
            
-           // fileContent = try String(contentsOf: url, encoding: .utf8)
-           // plaintext = fileContent
-           // path_to_file = url.path()
+       
         } catch {
             AlertMessage = "Error reading file: \(error.localizedDescription)"
             showAlert = true
@@ -560,12 +531,23 @@ struct ContentView: View {
                 TextField("Enter 32-bit binary seed", text:$key )
                     .frame(width:200)
                     .font(.system(size: 15))
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.vertical, 1)
                     .textFieldStyle(.roundedBorder)
+                    .frame(width:180)
                 
+                // Key stream
+                    Text("Generated Key Stream (binary):")
+                        .foregroundColor(.gray)
+                        .padding(.vertical, 5)
+                        .font(.system(size: 15))
+                    
+                    TextEditor(text: $binaryKeyStream)
+                        .padding(.vertical, 1)
+                        .padding(.horizontal)
+                        .frame(width: 240, height: 100)
                 
-                .frame(width:180)
-                Rectangle() // Невидимый разделитель
+                      Rectangle() // Невидимый разделитель
                      .fill(Color.clear)
                      .frame(height: 10) // Точная высота разделителя
                 
@@ -629,7 +611,6 @@ struct ContentView: View {
            
                     
                 TextEditor(text:$encrypted)
-                    .disabled(true)
                     .padding(.vertical,1)
                     .padding(.horizontal)
             
@@ -670,4 +651,12 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+}
+// В самом низу твоего ViewController или другого файла
+extension String {
+    func leftPadding(toLength: Int, withPad character: Character) -> String {
+        let paddingCount = toLength - self.count
+        guard paddingCount > 0 else { return self }
+        return String(repeating: character, count: paddingCount) + self
+    }
 }
