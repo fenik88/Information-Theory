@@ -1,0 +1,40 @@
+C:\Users\user\source\repos\timb3\bin\Debug\timb3.exe.config
+C:\Users\user\source\repos\timb3\bin\Debug\timb3.exe
+C:\Users\user\source\repos\timb3\bin\Debug\timb3.pdb
+C:\Users\user\source\repos\timb3\obj\Debug\timb3.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\timb3\obj\Debug\timb3.Properties.Resources.resources
+C:\Users\user\source\repos\timb3\obj\Debug\timb3.csproj.GenerateResource.cache
+C:\Users\user\source\repos\timb3\obj\Debug\timb3.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\timb3\obj\Debug\timb3.exe
+C:\Users\user\source\repos\timb3\obj\Debug\timb3.pdb
+C:\Users\user\source\repos\timb3\obj\Debug\timb3.MainForm.resources
+D:\Study\Term 4\TI\lab3\timb3\bin\Debug\timb3.exe.config
+D:\Study\Term 4\TI\lab3\timb3\bin\Debug\timb3.exe
+D:\Study\Term 4\TI\lab3\timb3\bin\Debug\timb3.pdb
+D:\Study\Term 4\TI\lab3\timb3\obj\Debug\timb3.csproj.AssemblyReference.cache
+D:\Study\Term 4\TI\lab3\timb3\obj\Debug\timb3.MainForm.resources
+D:\Study\Term 4\TI\lab3\timb3\obj\Debug\timb3.Properties.Resources.resources
+D:\Study\Term 4\TI\lab3\timb3\obj\Debug\timb3.csproj.GenerateResource.cache
+D:\Study\Term 4\TI\lab3\timb3\obj\Debug\timb3.csproj.CoreCompileInputs.cache
+D:\Study\Term 4\TI\lab3\timb3\obj\Debug\timb3.exe
+D:\Study\Term 4\TI\lab3\timb3\obj\Debug\timb3.pdb
+D:\TI\timb3\bin\Debug\timb3.exe.config
+D:\TI\timb3\bin\Debug\timb3.exe
+D:\TI\timb3\bin\Debug\timb3.pdb
+D:\TI\timb3\obj\Debug\timb3.csproj.AssemblyReference.cache
+D:\TI\timb3\obj\Debug\timb3.MainForm.resources
+D:\TI\timb3\obj\Debug\timb3.Properties.Resources.resources
+D:\TI\timb3\obj\Debug\timb3.csproj.GenerateResource.cache
+D:\TI\timb3\obj\Debug\timb3.csproj.CoreCompileInputs.cache
+D:\TI\timb3\obj\Debug\timb3.exe
+D:\TI\timb3\obj\Debug\timb3.pdb
+Z:\Documents\swift_projects\Information-Theory\TI_3lab\TI_lab3\bin\Debug\timb3.exe.config
+Z:\Documents\swift_projects\Information-Theory\TI_3lab\TI_lab3\bin\Debug\timb3.exe
+Z:\Documents\swift_projects\Information-Theory\TI_3lab\TI_lab3\bin\Debug\timb3.pdb
+Z:\Documents\swift_projects\Information-Theory\TI_3lab\TI_lab3\obj\Debug\timb3.csproj.AssemblyReference.cache
+Z:\Documents\swift_projects\Information-Theory\TI_3lab\TI_lab3\obj\Debug\timb3.MainForm.resources
+Z:\Documents\swift_projects\Information-Theory\TI_3lab\TI_lab3\obj\Debug\timb3.Properties.Resources.resources
+Z:\Documents\swift_projects\Information-Theory\TI_3lab\TI_lab3\obj\Debug\timb3.csproj.GenerateResource.cache
+Z:\Documents\swift_projects\Information-Theory\TI_3lab\TI_lab3\obj\Debug\timb3.csproj.CoreCompileInputs.cache
+Z:\Documents\swift_projects\Information-Theory\TI_3lab\TI_lab3\obj\Debug\timb3.exe
+Z:\Documents\swift_projects\Information-Theory\TI_3lab\TI_lab3\obj\Debug\timb3.pdb

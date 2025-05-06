@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "timb3", "timb3.csproj", "{787796D3-745B-449A-959D-C3D8B4FAB184}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{787796D3-745B-449A-959D-C3D8B4FAB184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{787796D3-745B-449A-959D-C3D8B4FAB184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{787796D3-745B-449A-959D-C3D8B4FAB184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{787796D3-745B-449A-959D-C3D8B4FAB184}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C934E941-50C3-4F8E-BE86-3CB2D8DF6E3D}
+	EndGlobalSection
+EndGlobal
